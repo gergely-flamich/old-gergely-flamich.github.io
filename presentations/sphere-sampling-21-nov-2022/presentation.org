@@ -11,30 +11,32 @@
 
 * Notation
 #+ATTR_REVEAL: :frag (appear)
- - $\lVert x \rVert_p \stackrel{def}{=} \left( \sum_{k = 1}^n x^p \right)^{1 / p}$
- - $B_n^p \stackrel{def}{=} \left\{x \in \mathbb{R}^n \mid \lVert x \rVert_p \leq 1 \right\}$
- - $S_n^p \stackrel{def}{=} \partial B_{n + 1}^p$
- - $\mathcal{B}_n^p$ - uniform distribution on $B_n^p$
- - $\mathcal{S}_n^p$ - uniform distribution on $S_n^p$.
+ - $\lVert x \rVert_p \stackrel{def}{=} \left( \sum_{k = 1}^n \lvert x_k \rvert^p \right)^{1 / p}$
+ - $B_p^n \stackrel{def}{=} \left\{x \in \mathbb{R}^n \mid \lVert x \rVert_p \leq 1 \right\}$
+ - $S_p^n \stackrel{def}{=} \partial B^{n + 1}_p$
+ - $\mathcal{B}_p^n$ - uniform distribution on $B_p^n$
+ - $\mathcal{S}_p^n$ - uniform distribution on $S_p^n$.
 
 * In Pictures
    [[./img/lp_spheres.png]]
 
 * First attempt
 #+ATTR_REVEAL: :frag (appear)
- - For $\mathcal{B}_n^p:$ Rejection sample with uniform proposal
- - For $\mathcal{S}_n^p:$ Sample from $\mathcal{B}_{n + 1}^p$, normalize
+ - For $\mathcal{B}_p^n:$ Rejection sample
+ - Uniform proposal on $C^n = [-1, 1]^n$
 
 * Problem w/ first attempt
 #+ATTR_REVEAL: :frag (appear)
-$$\mathrm{Vol}(B_n^p) = 2^n\frac{\Gamma\left(1 + \frac{1}{p}\right)^n}{\Gamma\left(1 + \frac{n}{p}\right)}$$
+$\text{Accept prob} = \mathrm{Vol}(B_p^n) \, / \, \mathrm{Vol}(C^n)$
+# $$\mathrm{Vol}(B_p^n) = 2^n\frac{\Gamma\left(1 + \frac{1}{p}\right)^n}{\Gamma\left(1 + \frac{n}{p}\right)}$$
+#+ATTR_REVEAL: :frag (appear)
    [[./img/cube_sphere_vol_ratio.png]]
 
 * Second attempt
 #+ATTR_REVEAL: :frag (appear)
- - $n$ -dimensional Gaussian: $$\phi(x) = \mathcal{N}(x \mid 0, I)$$
- - *Observation:* for $U \in \mathrm{SO}(n)$: $$\phi(Ux) = \phi(x)$$
- - For $X \sim \mathcal{N}(0, I)$: $$ X \, / \, \lVert X \rVert_2 \sim \mathcal{S}_n^2 $$
+ - $n$ -dimensional Gaussian: $X \sim \mathcal{N}(0, I)$
+ - *Observation:* for $O \in \mathrm{SO}(n)$: $$ X \sim OX \quad \Rightarrow \frac{X}{\lVert X \rVert_2} \sim \frac{OX}{\lVert X \rVert_2} = \frac{OX}{\lVert OX \rVert_2} $$
+ - *Hence:* $X \, / \, \lVert X \rVert_2 \sim \mathcal{S}^{n-1}_2$
 
 * Why did this trick work?
 #+ATTR_REVEAL: :frag (appear)
@@ -47,20 +49,20 @@ $$\mathrm{Vol}(B_n^p) = 2^n\frac{\Gamma\left(1 + \frac{1}{p}\right)^n}{\Gamma\le
  $p$ - generalized Gaussian:
 
 #+ATTR_REVEAL: :frag (appear)
- $$\mathcal{N}^p(x \mid 0, I) \propto e^{-\frac{\lVert x \rVert_p^p}{2}}$$
+ $$\mathcal{N}_p(x \mid 0, I) \propto e^{-\frac{\lVert x \rVert_p^p}{2}}$$
 
 * Recipe for L_p spheres
 #+ATTR_REVEAL: :frag (appear)
-- Draw $X \sim \mathcal{N}^p(x \mid 0, I)$.
-- Then $$ X \, / \, \lVert X \rVert_p \sim \mathcal{S}_{n - 1}^p $$
+- Draw $X \sim \mathcal{N}_p(x \mid 0, I)$.
+- Then $$ X \, / \, \lVert X \rVert_p \sim \mathcal{S}^{n - 1}_p $$
 - Drawing $X$ can be done dimensionwise!
 
 * L_p spherical distributions
 #+ATTR_REVEAL: :frag (appear)
-- $L_p$ spherical RV: $$Z = R \times U, \quad U \sim \mathcal{S}_n^p, R > 0$$
-- $Z \sim \mathcal{S}_n^p$: $\quad R = 1$.
-- $Z \sim \mathcal{N}^p$: $\quad R^p \sim \chi^2(2n \, /\, p)$.
-- $Z \sim \mathcal{B}_n^p$: $\quad \mathbb{P}[R < r] = \min\{r, 1\}^n$.
+- $L_p$ spherical RV: $$Z = R \times U, \quad U \sim \mathcal{S}_p^n, R > 0$$
+- $Z \sim \mathcal{S}_p^n$: $\quad R = 1$.
+- $Z \sim \mathcal{N}_p$: $\quad R^p \sim \chi^2(2n \, /\, p)$.
+- $Z \sim \mathcal{B}_p^n$: $\quad \mathbb{P}[R < r] = \min\{r, 1\}^n$.
 
 * How special is our trick?
 #+ATTR_REVEAL: :frag (appear)
@@ -69,12 +71,12 @@ $$\mathrm{Vol}(B_n^p) = 2^n\frac{\Gamma\left(1 + \frac{1}{p}\right)^n}{\Gamma\le
 
 * A third way for L_p balls
 #+ATTR_REVEAL: :frag (appear)
-- Let $U \sim \mathcal{S}_{n - 1}^p$
+- Let $U \sim \mathcal{S}^{n - 1}_p$
 - Then $U = U_{1:n} = (U_1, \dots, U_{n})$
 - $U_{1:k} \sim ?$
 
 #+ATTR_REVEAL: :frag (appear)
-*Theorem:* $U_{1:n - p} \sim \mathcal{B}_{n - p}^p$
+*Theorem:* $U_{1:n - p} \sim \mathcal{B}^{n - p}_p$
 
 * References
 - Wang, X. (2005). Volumes of generalized unit balls. Mathematics Magazine, 78(5), 390-395.
