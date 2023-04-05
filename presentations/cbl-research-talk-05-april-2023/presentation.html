@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Channel Simulation with Poisson Processes</title>
+<meta name="author" content="Gergely Flamich"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/white.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://cdn.jsdelivr.net/npm/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h2>Channel Simulation with Poisson Processes</h2><h2></h2></br><h4>Gergely Flamich</h4><h4>05/04/2023</h4>
+</section>
+
+<section>
+<section id="slide-org522056f">
+<h2 id="org522056f"><span class="section-number-2">1.</span> Lossy Image Compression</h2>
+
+<div id="org21ffd54" class="figure">
+<p><img src="./img/image_compression.png" alt="image_compression.png" class="fragment (appear)" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org10e025e">
+<h2 id="org10e025e"><span class="section-number-2">2.</span> Channel Simulation</h2>
+<p class="fragment (appear)">
+Source \(X\), latent \(Z\), model \(P_{X, Z}\)
+</p>
+
+<p class="fragment (appear)">
+<b>Encoder:</b>
+</p>
+
+<ol>
+<li class="fragment appear">Receive \(X \sim P_X\) from source</li>
+<li class="fragment appear">Encode \(Z \sim P_{Z \mid X}\) using \(P_Z\)</li>
+
+</ol>
+
+<p class="fragment (appear)">
+<b>Decoder:</b>
+</p>
+
+<ol>
+<li class="fragment appear">Recover \(Z\) using \(P_Z\)</li>
+<li class="fragment appear">Recover \(\hat{X} \sim P_{X \mid Z}\)</li>
+
+</ol>
+
+</section>
+</section>
+<section>
+<section id="slide-org2474e40">
+<h2 id="org2474e40"><span class="section-number-2">3.</span> Channel Simulation</h2>
+<p class="fragment (appear)">
+<b>Assumptions</b>
+</p>
+<ul>
+<li class="fragment appear">\(I[X; Z] < \infty\)</li>
+<li class="fragment appear">Can simulate \(Z \sim P_Z\)</li>
+<li class="fragment appear">Encoder and decoder share PRNG seed</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orga47a20f">
+<h2 id="orga47a20f"><span class="section-number-2">4.</span> Poisson Processes</h2>
+<ul>
+<li class="fragment appear">Collection of random points in space</li>
+<li class="fragment appear">Focus on spatio-temporal processes on \(\mathbb{R}^D \times \mathbb{R}^+\)</li>
+<li class="fragment appear">Exponential inter-arrival times</li>
+<li class="fragment appear">Spatial distribution \(P_{X \mid T}\)</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgfb8f442">
+<h2 id="orgfb8f442"><span class="section-number-2">5.</span> Poisson Processes</h2>
+
+<div id="org0d5a63b" class="figure">
+<p><img src="./img/pp_alg.png" alt="pp_alg.png" class="fragment (appear)" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgf4e44cb">
+<h3 id="orgf4e44cb"><span class="section-number-3">5.1.</span> Example with \(P_{X \mid T} = \mathcal{N}(0, 1)\)</h3>
+
+<div id="org0ac5a18" class="figure">
+<p><img src="./img/pp/empty_pp.png" alt="empty_pp.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org4e3ce05">
+<h3 id="org4e3ce05"><span class="section-number-3">5.2.</span> Example with \(P_{X \mid T} = \mathcal{N}(0, 1)\)</h3>
+
+<div id="org4e8edf1" class="figure">
+<p><img src="./img/pp/pp_t1.png" alt="pp_t1.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org4541979">
+<h3 id="org4541979"><span class="section-number-3">5.3.</span> Example with \(P_{X \mid T} = \mathcal{N}(0, 1)\)</h3>
+
+<div id="org3961316" class="figure">
+<p><img src="./img/pp/pp_x1.png" alt="pp_x1.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org4886771">
+<h3 id="org4886771"><span class="section-number-3">5.4.</span> Example with \(P_{X \mid T} = \mathcal{N}(0, 1)\)</h3>
+
+<div id="org79d1995" class="figure">
+<p><img src="./img/pp/pp_t1_x1.png" alt="pp_t1_x1.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org06106cb">
+<h3 id="org06106cb"><span class="section-number-3">5.5.</span> Example with \(P_{X \mid T} = \mathcal{N}(0, 1)\)</h3>
+
+<div id="org40c393b" class="figure">
+<p><img src="./img/pp/pp_t2.png" alt="pp_t2.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgf8b009b">
+<h3 id="orgf8b009b"><span class="section-number-3">5.6.</span> Example with \(P_{X \mid T} = \mathcal{N}(0, 1)\)</h3>
+
+<div id="org6505b91" class="figure">
+<p><img src="./img/pp/pp_x2.png" alt="pp_x2.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orge8a2d5f">
+<h3 id="orge8a2d5f"><span class="section-number-3">5.7.</span> Example with \(P_{X \mid T} = \mathcal{N}(0, 1)\)</h3>
+
+<div id="orgc5b8f31" class="figure">
+<p><img src="./img/pp/pp_t2_x2.png" alt="pp_t2_x2.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org3b4c36c">
+<h3 id="org3b4c36c"><span class="section-number-3">5.8.</span> Example with \(P_{X \mid T} = \mathcal{N}(0, 1)\)</h3>
+
+<div id="org4644a40" class="figure">
+<p><img src="./img/pp/pp_sim.png" alt="pp_sim.png" />
+</p>
+</div>
+
+
+</section>
+</section>
+<section>
+<section id="slide-org65c3b7c">
+<h2 id="org65c3b7c"><span class="section-number-2">6.</span> Rejection Sampling</h2>
+<img src="./img/rs_alg.png" class="r-stretch">
+
+</section>
+<section id="slide-org250632c">
+<h3 id="org250632c"><span class="section-number-3">6.1.</span> RS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="org230ed8b" class="figure">
+<p><img src="./img/rs/rs_0.png" alt="rs_0.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org00fb3c9">
+<h3 id="org00fb3c9"><span class="section-number-3">6.2.</span> RS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="org249a978" class="figure">
+<p><img src="./img/rs/rs_1.png" alt="rs_1.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgf2ce8e4">
+<h3 id="orgf2ce8e4"><span class="section-number-3">6.3.</span> RS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="org934c4db" class="figure">
+<p><img src="./img/rs/rs_2.png" alt="rs_2.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org9aed8c6">
+<h3 id="org9aed8c6"><span class="section-number-3">6.4.</span> RS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="org10ec7db" class="figure">
+<p><img src="./img/rs/rs_3.png" alt="rs_3.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org2d11de1">
+<h3 id="org2d11de1"><span class="section-number-3">6.5.</span> RS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="org9dd1b99" class="figure">
+<p><img src="./img/rs/rs_4.png" alt="rs_4.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgc78d9b5">
+<h3 id="orgc78d9b5"><span class="section-number-3">6.6.</span> RS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="org531d4fc" class="figure">
+<p><img src="./img/rs/rs_5.png" alt="rs_5.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgd8d26b9">
+<h3 id="orgd8d26b9"><span class="section-number-3">6.7.</span> RS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="orgd8521da" class="figure">
+<p><img src="./img/rs/rs_6.png" alt="rs_6.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org3e54baf">
+<h3 id="org3e54baf"><span class="section-number-3">6.8.</span> RS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="org8e099cb" class="figure">
+<p><img src="./img/rs/rs_7.png" alt="rs_7.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgc551e01">
+<h3 id="orgc551e01"><span class="section-number-3">6.9.</span> RS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="org6e15732" class="figure">
+<p><img src="./img/rs/rs_8.png" alt="rs_8.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org8342be5">
+<h3 id="org8342be5"><span class="section-number-3">6.10.</span> RS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="orgd8e6fc2" class="figure">
+<p><img src="./img/rs/rs_9.png" alt="rs_9.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgb437bf9">
+<h3 id="orgb437bf9"><span class="section-number-3">6.11.</span> RS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="org249bfca" class="figure">
+<p><img src="./img/rs/rs_10.png" alt="rs_10.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org813a815">
+<h3 id="org813a815"><span class="section-number-3">6.12.</span> RS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="orgf7af283" class="figure">
+<p><img src="./img/rs/rs_accept.png" alt="rs_accept.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgd6eb707">
+<h2 id="orgd6eb707"><span class="section-number-2">7.</span> Channel Simulation with Rejection Sampling</h2>
+<p class="fragment (appear)">
+<b>Encoder:</b>
+</p>
+<ul>
+<li class="fragment appear">Receive \(X \sim P_X\)</li>
+<li class="fragment appear">Rejection sample from \(P_{Z \mid X}\) using \(P_Z\).</li>
+<li class="fragment appear">Send index \(K\) of the accepted sample.</li>
+
+</ul>
+
+<p class="fragment (appear)">
+<b>Decoder:</b>
+</p>
+<ul>
+<li class="fragment appear">Simulate the same \(K\) samples from \(P_Z\)</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org471923c">
+<h2 id="org471923c"><span class="section-number-2">8.</span> Efficiency of RS</h2>
+<p class="fragment (appear)">
+Best possible bound is \(M^* = \sup_{z} \frac{p(z \mid X)}{p(z)}\).
+</p>
+
+<p class="fragment (appear)">
+Define \(D_{\inf}[P_{Z \mid X} \Vert P_Z] = \log M^*\).
+</p>
+
+<p class="fragment (appear)">
+\(K\) is geometric.
+</p>
+
+<p class="fragment (appear)">
+\(H[K \mid X] \geq D_{\inf}[P_{Z \mid X} \Vert P_Z]\).
+</p>
+
+<p class="fragment (appear)">
+\(\mathbb{E}[K \mid X] = \exp(D_{\inf}[P_{Z \mid X} \Vert P_Z])\).
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgbec5e78">
+<h2 id="orgbec5e78"><span class="section-number-2">9.</span> Greedy Poisson Rejection Sampling</h2>
+
+<div id="org9946838" class="figure">
+<p><img src="./img/gprs_alg.png" alt="gprs_alg.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org342f4f9">
+<h3 id="org342f4f9"><span class="section-number-3">9.1.</span> GPRS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="org5b0e7af" class="figure">
+<p><img src="./img/gprs/gprs_0.png" alt="gprs_0.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgc8e385f">
+<h3 id="orgc8e385f"><span class="section-number-3">9.2.</span> GPRS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="org3145df9" class="figure">
+<p><img src="./img/gprs/gprs_1.png" alt="gprs_1.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org3503435">
+<h3 id="org3503435"><span class="section-number-3">9.3.</span> GPRS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="org6ae9ded" class="figure">
+<p><img src="./img/gprs/gprs_2.png" alt="gprs_2.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgf54faed">
+<h3 id="orgf54faed"><span class="section-number-3">9.4.</span> GPRS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="orgf8975e4" class="figure">
+<p><img src="./img/gprs/gprs_3.png" alt="gprs_3.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org96ad17b">
+<h3 id="org96ad17b"><span class="section-number-3">9.5.</span> GPRS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="org72c5cc8" class="figure">
+<p><img src="./img/gprs/gprs_4.png" alt="gprs_4.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgce6ba71">
+<h3 id="orgce6ba71"><span class="section-number-3">9.6.</span> GPRS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="orga7ce210" class="figure">
+<p><img src="./img/gprs/gprs_5.png" alt="gprs_5.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org11f8aef">
+<h3 id="org11f8aef"><span class="section-number-3">9.7.</span> GPRS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="org5461fba" class="figure">
+<p><img src="./img/gprs/gprs_accept.png" alt="gprs_accept.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgf222bdc">
+<h2 id="orgf222bdc"><span class="section-number-2">10.</span> How to find \(\sigma\)?</h2>
+<p class="fragment (appear)">
+Define
+</p>
+<p class="fragment (appear)">
+\[
+W(h) = \int_0^h \min\left\{h \cdot p(z), p(z \mid X)\right\} \, dz
+\]
+</p>
+
+<p class="fragment (appear)">
+Then
+</p>
+<p class="fragment (appear)">
+\[
+\sigma(h) = \int_0^h \frac{1}{1 - W(\eta)} \, d\eta.
+\]
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgc11f728">
+<h2 id="orgc11f728"><span class="section-number-2">11.</span> How to find \(\sigma\)?</h2>
+<img src="./img/w_fn.png" class="r-stretch">
+
+</section>
+</section>
+<section>
+<section id="slide-orgc39c0bc">
+<h2 id="orgc39c0bc"><span class="section-number-2">12.</span> Analysis of GPRS</h2>
+<p class="fragment (appear)">
+<b>Codelength</b>
+</p>
+<p class="fragment (appear)">
+\[
+H[K \mid X] \leq D_{KL}[P_{Z \mid X} \Vert P_Z] + \log(D_{KL}[P_{Z \mid X} \Vert P_Z] + 1) + \mathcal{O}(1)
+\]
+</p>
+
+<p class="fragment (appear)">
+\[
+H[K] \leq I[X; Z] + \log(I[X; Z] + 1) + \mathcal{O}(1)
+\]
+</p>
+
+<p class="fragment (appear)">
+<b>Runtime</b>
+</p>
+
+<p class="fragment (appear)">
+\[
+\mathbb{E}[K \mid X] = \exp(D_{\inf}[P_{Z \mid X} \Vert P_Z])
+\]
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgff4aca5">
+<h2 id="orgff4aca5"><span class="section-number-2">13.</span> Speeding up GPRS</h2>
+
+<div id="orgc01f01c" class="figure">
+<p><img src="./img/gprs/gprs_accept.png" alt="gprs_accept.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org15d67d9">
+<h3 id="org15d67d9"><span class="section-number-3">13.1.</span> Fast GPRS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="orgcd5765c" class="figure">
+<p><img src="./img/fast_gprs/fast_gprs_0.png" alt="fast_gprs_0.png" />
+</p>
+</div>
+</section>
+<section id="slide-org3beabef">
+<h3 id="org3beabef"><span class="section-number-3">13.2.</span> Fast GPRS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="org9bbe071" class="figure">
+<p><img src="./img/fast_gprs/fast_gprs_1.png" alt="fast_gprs_1.png" />
+</p>
+</div>
+</section>
+<section id="slide-org79f2082">
+<h3 id="org79f2082"><span class="section-number-3">13.3.</span> Fast GPRS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="orge0ebb72" class="figure">
+<p><img src="./img/fast_gprs/fast_gprs_2.png" alt="fast_gprs_2.png" />
+</p>
+</div>
+</section>
+<section id="slide-org49a8e8f">
+<h3 id="org49a8e8f"><span class="section-number-3">13.4.</span> Fast GPRS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="org2af7472" class="figure">
+<p><img src="./img/fast_gprs/fast_gprs_3.png" alt="fast_gprs_3.png" />
+</p>
+</div>
+</section>
+<section id="slide-org654dafe">
+<h3 id="org654dafe"><span class="section-number-3">13.5.</span> Fast GPRS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="orgbd4359c" class="figure">
+<p><img src="./img/fast_gprs/fast_gprs_4.png" alt="fast_gprs_4.png" />
+</p>
+</div>
+</section>
+<section id="slide-org99d0ff0">
+<h3 id="org99d0ff0"><span class="section-number-3">13.6.</span> Fast GPRS with \(P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)\)</h3>
+
+<div id="org07a4565" class="figure">
+<p><img src="./img/fast_gprs/fast_gprs_5.png" alt="fast_gprs_5.png" />
+</p>
+</div>
+
+
+</section>
+</section>
+<section>
+<section id="slide-org12f296d">
+<h2 id="org12f296d"><span class="section-number-2">14.</span> Analysis of faster GPRS</h2>
+<p class="fragment (appear)">
+Now, encode search path \(\pi\).
+</p>
+
+<p class="fragment (appear)">
+\(H[\pi] \leq I[X; Z] + \log(I[X; Z] + 1) + \mathcal{O}(1)\)
+</p>
+
+<p class="fragment (appear)">
+\(\mathbb{E}[\lvert\pi\rvert] = \mathcal{O}(I[X; Z])\)
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org86321dd">
+<h2 id="org86321dd"><span class="section-number-2">15.</span> Some Open Questions</h2>
+<ul>
+<li class="fragment appear">Fast algorithm for multivariate Gaussians?</li>
+<li class="fragment appear">Tighter general lower bound on runtime?</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+slideNumber:'c/t', transition:'none',
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+});
+
+</script>
+</body>
+</html>
