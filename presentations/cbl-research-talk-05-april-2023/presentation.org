@@ -76,7 +76,14 @@ Source $X$, latent $Z$, model $P_{X, Z}$
 
 
 * Rejection Sampling
- #+REVEAL_HTML: <img src="./img/rs_alg.png" class="r-stretch">
+#+ATTR_REVEAL: :frag (appear)
+- Sampling algorithm for target distribution $Q$.
+- Using proposal $P$
+- Bound on their density ratio $q/p$: $M$
+
+** Rejection Sampling
+#+ATTR_REVEAL: :frag (appear)
+#+REVEAL_HTML: <img src="./img/rs_alg.png" class="r-stretch">
 
 ** RS with $P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)$
 [[./img/rs/rs_0.png]]
