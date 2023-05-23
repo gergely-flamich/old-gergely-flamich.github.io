@@ -9,12 +9,32 @@
 #+REVEAL_INIT_OPTIONS: slideNumber:'c/t', transition:'none'
 #+REVEAL_HLEVEL:0
 
+* Data Compression Fundamentals
+#+ATTR_REVEAL: :frag (appear)
+Lossless data compression with *entropy coding*:
+#+ATTR_REVEAL: :frag (appear)
+ - Assume statistical model over data: $P_Z$
+ - Common symbols have short codes, uncommon symbols have longer codes
+ - Can losslessly compress $Z \sim P_Z$ using $\mathbb{H}[Z] + \mathcal{O}(1)$ bits on average
+ - Huffman coding, arithmetic coding, ANS
+
 * Lossy Data Compression
 # How many know what entropy coding is?
 #+ATTR_REVEAL: :frag (appear)
 [[./img/jpeg_example/transform_encoding.png]]
 #+ATTR_REVEAL: :frag (appear)
 [[./img/jpeg_example/transform_decoding.png]]
+
+* Data Compression Fundamentals
+#+ATTR_REVEAL: :frag (appear)
+ - Assume statistical model over two variables $P_{X, Z}$
+ - Mutual information:
+#+ATTR_REVEAL: :frag (appear)
+$$
+I[X; Z] = \mathbb{H}[Z] - \mathbb{H}[Z \mid X]
+$$
+#+ATTR_REVEAL: :frag (appear)
+*Question:* Does this have a compression interpretation?
 
 * Relative Entropy Coding / Channel Simulation
 #+ATTR_REVEAL: :frag (appear)
@@ -93,11 +113,16 @@ Image from Dupont et al. (2021)
 *Problem*: Post-training quantization severely impacts performance!
 
 ** Compress variational INRs!
-*Solution (WIP)*: Variational INRs, train negative ELBO:
+*COMBINER*: COMpression with Bayesian Implicit Neural Representations
+
+Variational INRs, train negative $\beta$ -ELBO:
 $$
-\mathbb{E}_{w, \mathcal{D}}[-\log p(\mathcal{D} \mid w)] + I[w; \mathcal{D}]
+\mathbb{E}_{w, \mathcal{D}}[-\log p(\mathcal{D} \mid w)] + \beta \cdot I[w; \mathcal{D}]
 $$
-#+REVEAL_HTML: <img src="./img/applications/variational_inrs_performance.png" class="r-stretch">
+# +REVEAL_HTML: <section>
+#+REVEAL_HTML: <img src="./img/applications/combiner/psnr_kodak.png" width="45%">
+#+REVEAL_HTML: <img src="./img/applications/combiner/psnr_audio.png" width="45%">
+# +REVEAL_HTML: </section>
 
 * Current limitations of REC
 #+ATTR_REVEAL: :frag (appear)
@@ -113,6 +138,17 @@ Current REC algorithms are:
 #+ATTR_REVEAL: :frag (appear)
 *Open problem:* $\mathcal{O}(I[X; Z])$ runtime when both $P_{Z \mid X}$ and $P_Z$ are multivariate Gaussian?
 
+* Take home message: Overview and Applications
+#+ATTR_REVEAL: :frag (appear)
+- REC is a stochastic compression framework
+- Alternative to quantization and entropy coding
+- It finds applications in:
+  - Lossy compression with realism constraints
+  - Differentially private federated learning
+  - Model compression
+  - Compressing Bayesian INRs
+- Currently still too slow or limited
+
 * Poisson Processes
 #+ATTR_REVEAL: :frag (appear)
  - Collection of random points in space
@@ -122,7 +158,7 @@ Current REC algorithms are:
 
 ** Poisson Processes
 #+ATTR_REVEAL: :frag (appear)
-[[./img/pp_alg.png]]
+#+REVEAL_HTML: <img src="./img/pp_alg.png" class="r-stretch">
 
 ** Example with $P_{X \mid T} = \mathcal{N}(0, 1)$
 [[./img/pp/empty_pp.png]]
@@ -225,7 +261,7 @@ $H[K \mid X] \geq D_{\inf}[P_{Z \mid X} \Vert P_Z]$.
 $\mathbb{E}[K \mid X] = \exp(D_{\inf}[P_{Z \mid X} \Vert P_Z])$.
 
 * Greedy Poisson Rejection Sampling
-[[./img/gprs_alg.png]]
+#+REVEAL_HTML: <img src="./img/gprs_alg.png" class="r-stretch">
 
 ** GPRS with $P = \mathcal{N}(0, 1), Q = \mathcal{N}(1, 1/16)$
 [[./img/gprs/gprs_0.png]]
@@ -250,21 +286,10 @@ $\mathbb{E}[K \mid X] = \exp(D_{\inf}[P_{Z \mid X} \Vert P_Z])$.
 
 * How to find $\sigma$?
 #+ATTR_REVEAL: :frag (appear)
-Define
-#+ATTR_REVEAL: :frag (appear)
-$$
-W(h) = \int_0^h \min\left\{h \cdot p(z), p(z \mid X)\right\} \, dz
-$$
-
-#+ATTR_REVEAL: :frag (appear)
-Then
-#+ATTR_REVEAL: :frag (appear)
-$$
-\sigma(h) = \int_0^h \frac{1}{1 - W(\eta)} \, d\eta.
-$$
-
-* How to find $\sigma$?
- #+REVEAL_HTML: <img src="./img/w_fn.png" class="r-stretch">
+\begin{align}
+\left(\sigma^{-1}\right)'(t) &= \mathbb{P}_{Z \sim Q}[r(Z) \geq \sigma^{-1}(t)] \\
+&\quad - \sigma^{-1}(t) \cdot \mathbb{P}_{Z \sim P}[r(Z) \geq \sigma^{-1}(t)]
+\end{align}
 
 * Analysis of GPRS
 #+ATTR_REVEAL: :frag (appear)
